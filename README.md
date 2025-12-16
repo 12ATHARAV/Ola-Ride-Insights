@@ -1,42 +1,46 @@
-# Ola Ride Analytics 🚗📊
-End-to-end Ola ride analytics using Python, SQL, PostgreSQL, Power BI & Streamlit. From raw bookings data to interactive dashboards and web app.
+# 🚖 Ola Ride Insights: End-to-End Data Analysis
 
-📌 What it does
-Analyzes 5K+ Ola ride bookings to uncover:
+## 📌 Project Overview
+This project provides a comprehensive analysis of **Ola's ride-sharing data** to improve operational efficiency and customer satisfaction. By analyzing booking patterns, cancellation reasons, and revenue metrics, this project offers data-driven solutions for urban mobility challenges.
 
-Peak hours & busiest days
+The project demonstrates a full data lifecycle: **SQL-based extraction**, **Streamlit-driven interface**, and **Power BI visual storytelling**.
 
-Vehicle trends (Bike, Mini, Prime Sedan/SUV)
+---
 
-Cancellation patterns (customer vs driver reasons)
+## 🛠️ Tech Stack
+- **SQL:** PostgreSQL (Core business logic and view creation)
+- **Python:** Streamlit & Pandas (Web application and data manipulation)
+- **BI Tool:** Power BI (Interactive reporting dashboards)
+- **Documentation:** Microsoft Word (Technical documentation)
 
-Revenue by payment method (Cash/UPI/Card)
+---
 
-Ratings by vehicle type & distance
+## 📂 Repository Structure & Files
+* **`Dataset/ola_bookings.csv`**: The primary data source containing ride-level details.
+* **`ola_queries.sql`**: Contains 10+ professional SQL queries used for data extraction and business KPI monitoring.
+* **`ola_dashboard.py`**: A Streamlit web application that allows users to run SQL queries and view analysis results interactively.
+* **`ola powerbi.pbix`**: The master Power BI file containing advanced data visualizations.
+* **`OLA project output.docx`**: Technical document containing the final analysis outputs and query results.
+* **`OLA RIDE.docx`**: Project guidelines and problem statement details.
 
-Top customers by rides & value
+---
 
-🧠 4-Stage Pipeline
-EDA → Clean data, time features, visualizations​
+## 🔍 Key Business Insights
+The analysis focused on solving specific business problems:
+* **Cancellation Analysis:** Identified that **"Driver not moving towards pickup"** is the leading cause for customer-side cancellations.
+* **Revenue Performance:** Calculated the total booking value for successful rides and segmented it by vehicle type.
+* **Payment Behavior:** Analyzed the popularity of **UPI vs. Cash** payments in the ride-sharing ecosystem.
+* **Customer Satisfaction:** Derived average ratings for different vehicle segments (Prime Sedan, SUV, etc.) to evaluate service quality.
 
-SQL → PostgreSQL table + 10 analytics views​
+---
 
-Power BI → Interactive KPI dashboard​
+## 🚀 How to Use This Project
 
-Streamlit → Run SQL queries + embed live BI​
+### 1. Database Setup
+Execute the scripts in `ola_queries.sql` within your SQL environment to generate the necessary views for "Successful Bookings," "Top 5 Customers," and "Revenue Trends."
 
-🚀 Quick Start
-bash
-pip install -r requirements.txt
-# Setup PostgreSQL: sql/ola_queries.sql
-streamlit run app/ola_dashboard.py
-
-🛠 Tech Stack
-Python (Pandas/Streamlit) | PostgreSQL/SQL | Power BI ​​
-
-✨ Key Insights Delivered
-10 production SQL views (top customers, avg distance/vehicle, UPI rides, etc.)
-
-Full-stack: CSV → DB → BI → Web app
-
-Business-ready dashboard for stakeholders
+### 2. Run the Streamlit Web App
+The `ola_dashboard.py` script provides a user interface to interact with the SQL data. Run it locally using:
+```bash
+pip install streamlit pandas psycopg2
+streamlit run ola_dashboard.py
