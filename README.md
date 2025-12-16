@@ -30,8 +30,9 @@ bash
 pip install -r requirements.txt
 # Setup PostgreSQL: sql/ola_queries.sql
 streamlit run app/ola_dashboard.py
+
 🛠 Tech Stack
-Python (Pandas/Streamlit) | PostgreSQL/SQL | Power BI | Jupyter ​​
+Python (Pandas/Streamlit) | PostgreSQL/SQL | Power BI ​​
 
 ✨ Key Insights Delivered
 10 production SQL views (top customers, avg distance/vehicle, UPI rides, etc.)
