@@ -16,7 +16,7 @@ The project demonstrates a full data lifecycle: **SQL-based extraction**, **Stre
 ---
 
 ## 📂 Repository Structure & Files
-* **`Dataset/ola_bookings.csv`**: The primary data source containing ride-level details.
+* **`ola_bookings.csv`**: The primary data source containing ride-level details.
 * **`ola_queries.sql`**: Contains 10+ professional SQL queries used for data extraction and business KPI monitoring.
 * **`ola_dashboard.py`**: A Streamlit web application that allows users to run SQL queries and view analysis results interactively.
 * **`ola powerbi.pbix`**: The master Power BI file containing advanced data visualizations.
