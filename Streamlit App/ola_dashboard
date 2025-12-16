@@ -1,0 +1,125 @@
+import streamlit as st
+import pandas as pd
+import psycopg2
+
+
+# Database connection
+def connect_db():
+    return psycopg2.connect(
+        host=YOUR_HOST_NAME,
+        database=YOUR_DATABASE_NAME,
+        user=YOUR_USERNAME,
+        password=YOUR_PASSWORD,
+        port=YOUR_PORT
+    )
+
+# SQL Queries
+queries = {
+    "Show all bookings": "SELECT * FROM bookings LIMIT 100;",
+    
+    "1. All successful bookings": "SELECT * FROM bookings WHERE booking_status = 'Success';",
+    
+    "2. Average ride distance by vehicle type": """
+    SELECT vehicle_type, AVG(ride_distance) as avg_ride_distance
+    FROM bookings
+    GROUP BY vehicle_type;
+    """,
+    
+    "3. Total cancelled rides by customers": """
+    SELECT COUNT(*) as cancelled_by_customer_count 
+    FROM bookings
+    WHERE booking_status = 'Canceled by Customer';
+    """,
+    
+    "4. Top 5 customers by rides": """
+    SELECT customer_id, COUNT(booking_id) as total_rides
+    FROM bookings
+    GROUP BY customer_id
+    ORDER BY total_rides DESC LIMIT 5;
+    """,
+    
+    "5. Rides cancelled by drivers": """
+    SELECT COUNT(*) as cancelled_by_driver_count
+    FROM bookings
+    WHERE canceled_rides_by_driver = 'Personal & Car related issue';
+    """,
+    
+    "6. UPI payment rides": """
+    SELECT * FROM bookings 
+    WHERE payment_method = 'UPI';
+    """,
+    
+    "7. Total successful booking value": """
+    SELECT SUM(booking_value) as total_value
+    FROM bookings
+    WHERE booking_status = 'Success';
+    """,
+    
+    "8. Incomplete rides": """
+    SELECT booking_id, customer_id, incomplete_rides_reason
+    FROM bookings
+    WHERE incomplete_rides = 'Yes';
+    """,
+    
+    "9. All incomplete rides along with the reason":"""
+    select booking_id, customer_id, incomplete_rides, incomplete_rides_reason
+    from bookings
+    where incomplete_rides = 'Yes';
+    """,
+    
+    "10. Average customer rating per vehicle type":"""
+    select vehicle_type, avg(customer_rating::numeric) as avg_customer_rating
+    from bookings
+    where customer_rating <> 'null'       --this will exclude all rows where rating is null
+    group by vehicle_type;
+    """
+}
+
+
+
+st.sidebar.title("📊 Navigation")
+
+if st.sidebar.button("🔍 SQL Queries", use_container_width=True):
+    st.session_state.page = "SQL Queries"
+    
+if st.sidebar.button("📈 Data Analysis", use_container_width=True):
+    st.session_state.page = "Data Analysis"
+
+# Initialize page if not set
+if 'page' not in st.session_state:
+    st.session_state.page = "SQL Queries"
+
+page = st.session_state.page
+
+if page == "SQL Queries":
+    st.title("🚗 Ola Bookings Dashboard - SQL Queries")
+
+    # Query selection
+    selected = st.selectbox("Choose a query:", list(queries.keys()))
+
+    # Show SQL
+    st.code(queries[selected], language="sql")
+
+    # Execute button
+    if st.button("Run Query"):
+        try:
+            conn = connect_db()
+            df = pd.read_sql(queries[selected], conn)
+            conn.close()
+            
+            st.dataframe(df)
+            st.success(f"Found {len(df)} rows")
+            
+        except Exception as e:
+            st.error(f"Error: {e}")
+
+
+
+
+elif page == "Data Analysis":
+    st.title("📈 Power BI Visuals")
+    
+    powerbi_url = "https://app.powerbi.com/view?r=eyJrIjoiNGJkMDMxZjItM2MwNy00NTAzLWI3NjgtNWE5N2FjMGRmZDI5IiwidCI6ImJiZTcwMGY3LWQ0NWUtNGYyOC04MmE0LTdjYzgyZDdkNWViZSJ9"
+    
+    # Embed Power BI via iframe
+    st.components.v1.iframe(powerbi_url, width=900, height=573.5)
